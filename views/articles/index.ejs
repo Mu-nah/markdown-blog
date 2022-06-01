@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Blog</title>
+</head>
+<body>
+  <nav class="navbar navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand">Munah Log </a>
+    <form class="d-flex">
+      <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-success" type="submit">Search</button>
+    </form>
+  </div>
+</nav> 
+  <div class="container">
+    <% if(role==="admin") { %>
+    <h1 class="mb-4">Blog Articles</h1>
+    <a href="/articles/new" class="btn btn-success">New Article</a>
+    <% } %>
+
+    <% articles.forEach(article => { %>
+       <div class="card mb-3" style="max-width: 540px;">
+  <div class="row g-0">
+    <div class="col-md-4">
+      <img src="<%= article.image %>" class="img-fluid rounded-start" alt="image">
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <h5 class="card-title"><%= article.title %></h5>
+        <p class="card-text"><%= article.description %></p>
+        <p class="card-text"><small class="text-muted">Last updated: <%= article.createdAt.toLocaleDateString() %></small></p>
+              <a href="/articles/<%= article.slug %>" class="btn btn-primary">Read More</a>
+          <% if(role==="admin") { %> 
+          <a href="/articles/edit/<%= article.id %>" class="btn btn-info">Edit</a>
+          <form action="/articles/<%= article.id %>?_method=DELETE" method="POST" class="d-inline">
+            <button type="submit" class="btn btn-danger">Delete</button>
+             <% } %>
+      </div>
+    </div>
+  </div>
+</div>
+    <% }) %>
+  </div>
+</body>
+</html>
+
